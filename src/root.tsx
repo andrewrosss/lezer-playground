@@ -14,6 +14,8 @@ import {
   Title,
 } from "solid-start";
 
+import { RootLayout } from "./components/root-layout";
+
 export default function Root() {
   return (
     <Html lang="en">
@@ -25,9 +27,11 @@ export default function Root() {
       <Body>
         <Suspense>
           <ErrorBoundary>
-            <Routes>
-              <FileRoutes />
-            </Routes>
+            <RootLayout>
+              <Routes>
+                <FileRoutes />
+              </Routes>
+            </RootLayout>
           </ErrorBoundary>
         </Suspense>
         <Scripts />

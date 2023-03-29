@@ -34,3 +34,11 @@ h5,
 h6 {
   overflow-wrap: break-word;
 }
+
+/*
+  Custom CSS
+*/
+
+body {
+  @apply bg-slate-900 text-white;
+}
