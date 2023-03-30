@@ -16,9 +16,17 @@
     "vite": "^4.1.4"
   },
   "dependencies": {
+    "@codemirror/autocomplete": "^6.4.2",
+    "@codemirror/commands": "^6.2.2",
+    "@codemirror/lang-javascript": "^6.1.4",
+    "@codemirror/language": "^6.6.0",
+    "@codemirror/state": "^6.2.0",
+    "@codemirror/view": "^6.9.3",
+    "@lezer/highlight": "^1.1.4",
     "@solid-primitives/pointer": "^0.2.9",
     "@solidjs/meta": "^0.28.2",
     "@solidjs/router": "^0.8.2",
+    "solid-codemirror": "^2.2.3",
     "solid-js": "^1.6.16",
     "solid-start": "^0.2.24",
     "undici": "^5.15.1"
