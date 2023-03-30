@@ -79,7 +79,7 @@ export const ResizableSplitContainer = (props: Props) => {
       onMouseMove={handleMouseMove}
     >
       {/* @ts-ignore */}
-      <div ref={firstRef} class="grow shrink-0">
+      <div ref={firstRef} class="grow shrink-0 basis-[calc(50%-0.5rem)]">
         {local.first}
       </div>
 
@@ -118,7 +118,7 @@ export const ResizableSplitContainer = (props: Props) => {
       </div>
 
       {/* @ts-ignore */}
-      <div ref={secondRef} class="grow shrink-0">
+      <div ref={secondRef} class="grow shrink-0 basis-[calc(50%-0.5rem)]">
         {local.second}
       </div>
     </div>
