@@ -31,11 +31,13 @@ const defineEditorTheme = (theme: ThemeOptions) => {
     lineNumbers?.color
       ? styledLineNumbers({
           color: lineNumbers?.color ?? (darkMode ? "#FFF" : "#000"),
+          backgroundColor: lineNumbers?.backgroundColor ?? "transparent",
         })
       : [],
     styledSelection({
       backgroundColor: selection?.backgroundColor ?? `${highlight.keywords}50`,
       color: selection?.color ?? "inherit",
+      activeLine: selection?.activeLine ?? `${highlight.keywords}10`,
     }),
     styledAutocomplete(autocomplete),
     styledHighlight(highlight),
@@ -234,11 +236,15 @@ function styledHighlight(h: StyledHighlightOptions) {
 
 interface StyledLineNumbersOptions {
   color: string;
+  backgroundColor: string;
 }
 
 function styledLineNumbers(options: StyledLineNumbersOptions) {
   return EditorView.theme({
-    ".cm-lineNumbers .cm-gutterElement": { color: options.color },
+    ".cm-lineNumbers .cm-gutterElement": {
+      color: options.color,
+      backgroundColor: options.backgroundColor,
+    },
   });
 }
 
@@ -286,10 +292,11 @@ export const vsCodeDark = [
   defineEditorTheme({
     selection: {
       backgroundColor: selection,
-      activeLine: activeLine,
+      activeLine: background,
     },
     lineNumbers: {
       color: lineNumber,
+      backgroundColor: background,
     },
     cursor: {
       color: foreground,

@@ -2,6 +2,7 @@ import {
   createCodeMirror,
   createEditorControlledValue,
 } from "solid-codemirror";
+import { TbChevronDown, TbChevronRight } from "solid-icons/tb";
 import { ComponentProps, VoidProps, createSignal, onMount } from "solid-js";
 
 import {
@@ -17,13 +18,19 @@ import {
   indentWithTab,
 } from "@codemirror/commands";
 import { javascript } from "@codemirror/lang-javascript";
-import { bracketMatching, indentOnInput } from "@codemirror/language";
+import {
+  bracketMatching,
+  codeFolding,
+  foldGutter,
+  indentOnInput,
+} from "@codemirror/language";
 import { EditorState, Extension } from "@codemirror/state";
 import {
   EditorView,
   crosshairCursor,
   drawSelection,
   dropCursor,
+  highlightActiveLine,
   highlightSpecialChars,
   keymap,
   lineNumbers,
@@ -34,6 +41,7 @@ import { background, vsCodeDark } from "./themes/vsCodeDark";
 
 const EDITOR_BASE_SETUP: Extension = [
   highlightSpecialChars(),
+  highlightActiveLine(),
   drawSelection(),
   dropCursor(),
   EditorState.allowMultipleSelections.of(true),
@@ -103,12 +111,16 @@ function helloWorld() {
       lineHeight: "21px",
     },
     ".cm-line": {
-      padding: "0 2px 0 8px",
+      borderTop: "2px solid transparent",
+      borderBottom: "2px solid transparent",
+    },
+    ".cm-line.cm-activeLine": {
+      borderTop: "2px solid rgba(255, 255, 255, 0.05)",
+      borderBottom: "2px solid rgba(255, 255, 255, 0.05)",
     },
     ".cm-cursor": {
       borderLeftWidth: "2px",
       height: "21px",
-      transform: "translateY(-10%)",
     },
   });
 
@@ -128,12 +140,20 @@ function helloWorld() {
     });
   };
 
+  // fold gutter
+  const markerDOM = (open: boolean) =>
+    (open ? (
+      <TbChevronDown class="text-[1.25em]" />
+    ) : (
+      <TbChevronRight class="text-[1.25em]" />
+    )) as HTMLElement;
+
   onMount(() => {
     setRef(() => editorEl);
   });
-
   createEditorControlledValue(editorView, () => code() ?? "");
-  createExtension(EditorView.lineWrapping);
+  createExtension(() => codeFolding());
+  createExtension(() => foldGutter({ markerDOM }));
   createExtension(EDITOR_BASE_SETUP);
   createExtension(baseTheme);
   createExtension(() => vsCodeDark); // theme

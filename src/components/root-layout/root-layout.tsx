@@ -30,7 +30,7 @@ export const RootLayout: ParentComponent = (props) => {
 const Header = () => {
   return (
     <div
-      class="px-4 py-2 border-b border-slate-800"
+      class="px-4 py-2 border-b border-slate-700"
       style={{ "grid-area": "header" }}
     >
       <A href={urls.home()}>
