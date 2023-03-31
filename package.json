@@ -27,6 +27,7 @@
     "@solidjs/meta": "^0.28.2",
     "@solidjs/router": "^0.8.2",
     "solid-codemirror": "^2.2.3",
+    "solid-icons": "^1.0.4",
     "solid-js": "^1.6.16",
     "solid-start": "^0.2.24",
     "undici": "^5.15.1"

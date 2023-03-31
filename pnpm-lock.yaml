@@ -34,6 +34,9 @@ dependencies:
   solid-codemirror:
     specifier: ^2.2.3
     version: 2.2.3(@codemirror/state@6.2.0)(@codemirror/view@6.9.3)(solid-js@1.6.16)
+  solid-icons:
+    specifier: ^1.0.4
+    version: 1.0.4(solid-js@1.6.16)
   solid-js:
     specifier: ^1.6.16
     version: 1.6.16
@@ -4316,6 +4319,15 @@ packages:
       '@changesets/cli': 2.26.1
       '@codemirror/state': 6.2.0
       '@codemirror/view': 6.9.3
+      solid-js: 1.6.16
+    dev: false
+
+  /solid-icons@1.0.4(solid-js@1.6.16):
+    resolution: {integrity: sha512-gJTp4in3+OYCs9WvDkSLt4Los2unR3Uoder8wjh15GsfP20xiNOLfPTJllXmn+fI8+k3x7bRYtLGIgWd9fUQug==}
+    engines: {node: '>= 16'}
+    peerDependencies:
+      solid-js: '*'
+    dependencies:
       solid-js: 1.6.16
     dev: false
 
