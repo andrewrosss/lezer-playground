@@ -1,20 +1,22 @@
 import { Editor } from "~/components/editor";
-import { ResizableSplitContainer } from "~/components/resizable-split-container";
+import { SolidSplit } from "~/components/solid-split";
 
 export default function Home() {
   return (
-    <ResizableSplitContainer
+    <SolidSplit
       style={{ "grid-area": "main" }}
-      splitDirection="horizontal"
-      first={<_GrammarContainer />}
-      second={
-        <ResizableSplitContainer
-          splitDirection="vertical"
-          first={<_SpecimenContainer />}
-          second={<_TreeContainer />}
-        />
-      }
-    />
+      options={{ direction: "horizontal", gutterSize: 8, minSize: 100 }}
+      gutter={gutterFn}
+    >
+      <_GrammarContainer />
+      <SolidSplit
+        options={{ direction: "vertical", gutterSize: 8, minSize: 100 }}
+        gutter={gutterFn}
+      >
+        <_SpecimenContainer />
+        <_TreeContainer />
+      </SolidSplit>
+    </SolidSplit>
   );
 }
 
@@ -59,3 +61,18 @@ const _TreeContainer = () => (
     </div>
   </section>
 );
+
+const gutterFn = (_: number, direction: "horizontal" | "vertical") =>
+  (direction === "vertical" ? (
+    <div class="flex items-center justify-center gap-2 bg-slate-700">
+      <span class="w-1 h-1 rounded-full bg-slate-300" />
+      <span class="w-1 h-1 rounded-full bg-slate-300" />
+      <span class="w-1 h-1 rounded-full bg-slate-300" />
+    </div>
+  ) : (
+    <div class="flex flex-col items-center justify-center gap-2 bg-slate-700">
+      <span class="w-1 h-1 rounded-full bg-slate-300" />
+      <span class="w-1 h-1 rounded-full bg-slate-300" />
+      <span class="w-1 h-1 rounded-full bg-slate-300" />
+    </div>
+  )) as HTMLDivElement;

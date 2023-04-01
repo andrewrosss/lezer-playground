@@ -42,3 +42,11 @@ h6 {
 body {
   @apply bg-slate-900 text-white;
 }
+
+.gutter.gutter-vertical {
+  @apply bg-slate-700;
+}
+
+.gutter.gutter-horizontal {
+  @apply bg-slate-700;
+}
