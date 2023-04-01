@@ -37,7 +37,6 @@ const defineEditorTheme = (theme: ThemeOptions) => {
     styledSelection({
       backgroundColor: selection?.backgroundColor ?? `${highlight.keywords}50`,
       color: selection?.color ?? "inherit",
-      activeLine: selection?.activeLine ?? `${highlight.keywords}10`,
     }),
     styledAutocomplete(autocomplete),
     styledHighlight(highlight),
@@ -253,7 +252,6 @@ function styledLineNumbers(options: StyledLineNumbersOptions) {
 interface StyledSelectionOptions {
   backgroundColor: string;
   color: string;
-  activeLine?: string;
 }
 
 function styledSelection(options: StyledSelectionOptions) {
@@ -262,9 +260,6 @@ function styledSelection(options: StyledSelectionOptions) {
       {
         background: options.backgroundColor,
       },
-    ".cm-activeLine": {
-      backgroundColor: options.activeLine ?? "unset",
-    },
   });
 }
 
@@ -292,7 +287,6 @@ export const vsCodeDark = [
   defineEditorTheme({
     selection: {
       backgroundColor: selection,
-      activeLine: background,
     },
     lineNumbers: {
       color: lineNumber,

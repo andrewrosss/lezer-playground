@@ -105,18 +105,29 @@ function helloWorld() {
       flexDirection: "column",
       flexShrink: 0,
     },
+    ".cm-gutterElement": {
+      display: "flex",
+      alignItems: "center",
+    },
     ".cm-lineNumbers .cm-gutterElement": {
-      textAlign: "right",
-      padding: "0 16px 0 8px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-end",
+      padding: "0 8px 0 16px",
       lineHeight: "21px",
     },
     ".cm-line": {
       borderTop: "2px solid transparent",
       borderBottom: "2px solid transparent",
     },
+    ".cm-line .cm-foldPlaceholder": {
+      backgroundColor: "transparent",
+      border: "none",
+    },
     ".cm-line.cm-activeLine": {
       borderTop: "2px solid rgba(255, 255, 255, 0.05)",
       borderBottom: "2px solid rgba(255, 255, 255, 0.05)",
+      backgroundColor: "transparent",
     },
     ".cm-cursor": {
       borderLeftWidth: "2px",
@@ -153,13 +164,13 @@ function helloWorld() {
   });
   createEditorControlledValue(editorView, () => code() ?? "");
   createExtension(() => codeFolding());
+  createExtension(() => lineNumbers());
   createExtension(() => foldGutter({ markerDOM }));
   createExtension(EDITOR_BASE_SETUP);
   createExtension(baseTheme);
   createExtension(() => vsCodeDark); // theme
   createExtension(() => customFontExtension());
   createExtension(() => javascript({ jsx: true, typescript: true }));
-  createExtension(() => lineNumbers());
   createExtension(() =>
     EditorView.domEventHandlers({
       paste(event, view) {
