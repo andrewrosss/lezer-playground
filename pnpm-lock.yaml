@@ -43,6 +43,9 @@ dependencies:
   solid-start:
     specifier: ^0.2.24
     version: 0.2.24(@solidjs/meta@0.28.2)(@solidjs/router@0.8.2)(solid-js@1.6.16)(solid-start-node@0.2.24)(solid-start-vercel@0.2.24)(vite@4.2.1)
+  split.js:
+    specifier: ^1.6.5
+    version: 1.6.5
   undici:
     specifier: ^5.15.1
     version: 5.21.0
@@ -4506,6 +4509,10 @@ packages:
 
   /spdx-license-ids@3.0.13:
     resolution: {integrity: sha512-XkD+zwiqXHikFZm4AX/7JSCXA98U5Db4AFd5XUg/+9UNtnH75+Z9KxtpYiJZx36mUDVOwH83pl7yvCer6ewM3w==}
+    dev: false
+
+  /split.js@1.6.5:
+    resolution: {integrity: sha512-mPTnGCiS/RiuTNsVhCm9De9cCAUsrNFFviRbADdKiiV+Kk8HKp/0fWu7Kr8pi3/yBmsqLFHuXGT9UUZ+CNLwFw==}
     dev: false
 
   /sprintf-js@1.0.3:
