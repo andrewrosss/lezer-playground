@@ -1,5 +1,5 @@
-import { createSignal } from "solid-js";
 import { Editor } from "~/components/editor";
+import { getAppStore } from "~/lib/state";
 
 import { json } from "@codemirror/lang-json";
 
@@ -58,7 +58,7 @@ const INITIAL_TREE = `\
 `;
 
 export const TreeEditor = () => {
-  const [code, setCode] = createSignal(INITIAL_TREE);
+  const { state } = getAppStore();
 
   return (
     <section
@@ -73,8 +73,8 @@ export const TreeEditor = () => {
       <div class="overflow-auto flex flex-col">
         <Editor
           class="flex-auto overflow-y-auto h-24 text-sm"
-          value={code()}
-          onValueChange={setCode}
+          value={state.editors.tree.code}
+          onValueChange={() => state.editors.tree.code}
           language={json()}
         />
       </div>

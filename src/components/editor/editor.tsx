@@ -169,7 +169,7 @@ export function Editor(props: Props) {
       paste(event, view) {
         setTimeout(() => {
           const localValue = view.state.doc.toString();
-          // TODO: tie this in with the editor state
+          // TODO: is this causing a memory leak?
           local.onValueChange(localValue);
         });
       },

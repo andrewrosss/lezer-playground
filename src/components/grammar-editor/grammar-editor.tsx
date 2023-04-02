@@ -1,26 +1,13 @@
-import { createSignal } from "solid-js";
 import { Editor } from "~/components/editor";
+import { getAppStore } from "~/lib/state";
 
 import { lezer } from "@codemirror/lang-lezer";
 
-const INITIAL_GRAMMAR = `\
-@top Program { expression }
-
-expression { Name | Number | BinaryExpression }
-
-BinaryExpression { "(" expression Operator expression ")" }
-
-@tokens {
-  Name { @asciiLetter+ }
-  Number { @digit+ }
-  Operator { $[+-] }
-}
-
-@detectDelim
-`;
-
 export const GrammarEditor = () => {
-  const [code, setCode] = createSignal(INITIAL_GRAMMAR);
+  const {
+    state,
+    actions: { setGrammarCode },
+  } = getAppStore();
 
   return (
     <section
@@ -35,8 +22,8 @@ export const GrammarEditor = () => {
       <div class="overflow-auto flex flex-col">
         <Editor
           class="flex-auto overflow-y-auto h-24 text-sm"
-          value={code()}
-          onValueChange={setCode}
+          value={state.editors.grammar.code}
+          onValueChange={setGrammarCode}
           language={lezer()}
         />
       </div>

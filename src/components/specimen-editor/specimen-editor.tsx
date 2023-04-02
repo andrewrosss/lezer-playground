@@ -1,29 +1,13 @@
-import { createSignal } from "solid-js";
 import { Editor } from "~/components/editor";
-import { buildLanguageSupport } from "~/lib/language";
-
-const INITIAL_SPECIMEN = `(100-(foo+4))`;
-
-// TODO: pull from global state
-const INITIAL_GRAMMAR = `\
-@top Program { expression }
-
-expression { Name | Number | BinaryExpression }
-
-BinaryExpression { "(" expression Operator expression ")" }
-
-@tokens {
-  Name { @asciiLetter+ }
-  Number { @digit+ }
-  Operator { $[+-] }
-}
-
-@detectDelim
-`;
+import { languageFromParser } from "~/lib/language";
+import { getAppStore } from "~/lib/state";
 
 export const SpecimenEditor = () => {
-  const [code, setCode] = createSignal(INITIAL_SPECIMEN);
-  const language = () => buildLanguageSupport(INITIAL_GRAMMAR);
+  const {
+    state,
+    actions: { setSpecimenCode },
+  } = getAppStore();
+  const language = () => languageFromParser(state.parser);
 
   return (
     <section
@@ -38,8 +22,8 @@ export const SpecimenEditor = () => {
       <div class="overflow-auto flex flex-col">
         <Editor
           class="flex-auto overflow-y-auto h-24 text-sm"
-          value={code()}
-          onValueChange={setCode}
+          value={state.editors.specimen.code}
+          onValueChange={setSpecimenCode}
           language={language()}
         />
       </div>
