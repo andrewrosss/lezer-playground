@@ -28,6 +28,9 @@ dependencies:
   '@codemirror/view':
     specifier: ^6.9.3
     version: 6.9.3
+  '@lezer/common':
+    specifier: ^1.0.2
+    version: 1.0.2
   '@lezer/generator':
     specifier: ^1.2.2
     version: 1.2.2
@@ -58,6 +61,9 @@ dependencies:
   split.js:
     specifier: ^1.6.5
     version: 1.6.5
+  statebuilder:
+    specifier: ^0.3.1
+    version: 0.3.1
   undici:
     specifier: ^5.15.1
     version: 5.21.0
@@ -4575,6 +4581,16 @@ packages:
 
   /sprintf-js@1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
+    dev: false
+
+  /statebuilder@0.3.1:
+    resolution: {integrity: sha512-fGqSNxMc2YjjPvp3vKu4TJDjt7C42pp4aap/IKdbm0a4Xmf3R642EquMKSiY9CWStjlIrSdAN6va81P/fx1qZw==}
+    peerDependenciesMeta:
+      rxjs:
+        optional: true
+    dependencies:
+      rxjs: 7.8.0
+      solid-js: 1.6.16
     dev: false
 
   /statuses@1.5.0:

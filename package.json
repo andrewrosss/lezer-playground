@@ -25,6 +25,7 @@
     "@codemirror/search": "^6.3.0",
     "@codemirror/state": "^6.2.0",
     "@codemirror/view": "^6.9.3",
+    "@lezer/common": "^1.0.2",
     "@lezer/generator": "^1.2.2",
     "@lezer/highlight": "^1.1.4",
     "@solid-primitives/pointer": "^0.2.9",
@@ -35,6 +36,7 @@
     "solid-js": "^1.6.16",
     "solid-start": "^0.2.24",
     "split.js": "^1.6.5",
+    "statebuilder": "^0.3.1",
     "undici": "^5.15.1"
   },
   "engines": {
