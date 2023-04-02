@@ -24,6 +24,7 @@ import {
   foldGutter,
   indentOnInput,
 } from "@codemirror/language";
+import { search, searchKeymap } from "@codemirror/search";
 import { EditorState, Extension } from "@codemirror/state";
 import {
   EditorView,
@@ -52,11 +53,13 @@ const EDITOR_BASE_SETUP: Extension = [
   rectangularSelection(),
   crosshairCursor(),
   history(),
+  search({ top: true }),
   keymap.of([
     ...closeBracketsKeymap,
     ...defaultKeymap,
     ...completionKeymap,
     ...historyKeymap,
+    ...searchKeymap,
     indentWithTab,
   ]),
 ];

@@ -13,6 +13,9 @@ dependencies:
   '@codemirror/language':
     specifier: ^6.6.0
     version: 6.6.0
+  '@codemirror/search':
+    specifier: ^6.3.0
+    version: 6.3.0
   '@codemirror/state':
     specifier: ^6.2.0
     version: 6.2.0
@@ -1406,6 +1409,14 @@ packages:
 
   /@codemirror/lint@6.2.0:
     resolution: {integrity: sha512-KVCECmR2fFeYBr1ZXDVue7x3q5PMI0PzcIbA+zKufnkniMBo1325t0h1jM85AKp8l3tj67LRxVpZfgDxEXlQkg==}
+    dependencies:
+      '@codemirror/state': 6.2.0
+      '@codemirror/view': 6.9.3
+      crelt: 1.0.5
+    dev: false
+
+  /@codemirror/search@6.3.0:
+    resolution: {integrity: sha512-rBhZxzT34CarfhgCZGhaLBScABDN3iqJxixzNuINp9lrb3lzm0nTpR77G1VrxGO3HOGK7j62jcJftQM7eCOIuw==}
     dependencies:
       '@codemirror/state': 6.2.0
       '@codemirror/view': 6.9.3
