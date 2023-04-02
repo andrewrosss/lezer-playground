@@ -1,6 +1,8 @@
 import { createSignal } from "solid-js";
 import { Editor } from "~/components/editor";
 
+import { json } from "@codemirror/lang-json";
+
 const INITIAL_VALUE = `\
 {
   "name": "Program",
@@ -73,6 +75,7 @@ export const TreeEditor = () => {
           class="flex-auto overflow-y-auto h-24 text-sm"
           value={code()}
           onValueChange={setCode}
+          language={json()}
         />
       </div>
     </section>
