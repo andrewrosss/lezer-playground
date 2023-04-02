@@ -17,7 +17,6 @@ import {
   historyKeymap,
   indentWithTab,
 } from "@codemirror/commands";
-import { javascript } from "@codemirror/lang-javascript";
 import {
   bracketMatching,
   codeFolding,
@@ -131,12 +130,17 @@ const BASE_FONT_EXTENSION = EditorView.theme({
 type Props = VoidProps<ComponentProps<"code">> & {
   value: string;
   onValueChange: (value: string) => void;
+  language?: Extension;
 };
 
 export function Editor(props: Props) {
   let editorEl!: HTMLDivElement;
 
-  const [local, rest] = splitProps(props, ["value", "onValueChange"]);
+  const [local, rest] = splitProps(props, [
+    "value",
+    "onValueChange",
+    "language",
+  ]);
 
   const {
     editorView,
@@ -160,7 +164,6 @@ export function Editor(props: Props) {
   createExtension(() => lineNumbers());
   createExtension(() => codeFolding());
   createExtension(() => foldGutter({ markerDOM }));
-  createExtension(() => javascript({ jsx: true, typescript: true }));
   createExtension(() =>
     EditorView.domEventHandlers({
       paste(event, view) {
@@ -172,6 +175,10 @@ export function Editor(props: Props) {
       },
     })
   );
+
+  if (local.language) {
+    createExtension(() => local.language);
+  }
 
   onMount(() => setRef(() => editorEl));
 
