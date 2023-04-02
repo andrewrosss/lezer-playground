@@ -1,6 +1,8 @@
 import { createSignal } from "solid-js";
 import { Editor } from "~/components/editor";
 
+import { lezer } from "@codemirror/lang-lezer";
+
 const INITIAL_VALUE = `\
 @top Program { expression }
 
@@ -33,6 +35,7 @@ export const GrammarEditor = () => {
           class="flex-auto overflow-y-auto h-24 text-sm"
           value={code()}
           onValueChange={setCode}
+          language={lezer()}
         />
       </div>
     </section>
