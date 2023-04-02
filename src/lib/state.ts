@@ -30,7 +30,7 @@ const INITIAL_SPECIMEN = `(100-(foo+4))`;
 
 const INITIAL_TREE = JSONfromTree(INITIAL_PARSER.parse(INITIAL_SPECIMEN));
 
-const createAppStore = () => {
+const store = createRoot(() => {
   const config = defineStore(() => ({
     editors: {
       grammar: { code: INITIAL_GRAMMAR },
@@ -78,17 +78,8 @@ const createAppStore = () => {
     setState: store.set,
     actions: store.actions,
   } as const;
-};
-
-let store: ReturnType<typeof createAppStore>;
-const appStore = () => {
-  if (!store) {
-    console.log("creating app store");
-    store = createAppStore();
-  }
-  return store;
-};
+});
 
 export function getAppStore() {
-  return appStore();
+  return store;
 }
