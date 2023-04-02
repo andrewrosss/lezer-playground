@@ -3,7 +3,7 @@ import { Editor } from "~/components/editor";
 
 import { json } from "@codemirror/lang-json";
 
-const INITIAL_VALUE = `\
+const INITIAL_TREE = `\
 {
   "name": "Program",
   "from": 0,
@@ -58,7 +58,7 @@ const INITIAL_VALUE = `\
 `;
 
 export const TreeEditor = () => {
-  const [code, setCode] = createSignal(INITIAL_VALUE);
+  const [code, setCode] = createSignal(INITIAL_TREE);
 
   return (
     <section

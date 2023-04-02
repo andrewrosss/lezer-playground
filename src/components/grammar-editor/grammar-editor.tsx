@@ -3,7 +3,7 @@ import { Editor } from "~/components/editor";
 
 import { lezer } from "@codemirror/lang-lezer";
 
-const INITIAL_VALUE = `\
+const INITIAL_GRAMMAR = `\
 @top Program { expression }
 
 expression { Name | Number | BinaryExpression }
@@ -15,10 +15,12 @@ BinaryExpression { "(" expression Operator expression ")" }
   Number { @digit+ }
   Operator { $[+-] }
 }
+
+@detectDelim
 `;
 
 export const GrammarEditor = () => {
-  const [code, setCode] = createSignal(INITIAL_VALUE);
+  const [code, setCode] = createSignal(INITIAL_GRAMMAR);
 
   return (
     <section
