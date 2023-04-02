@@ -1,4 +1,5 @@
 import { LRLanguage, LanguageSupport } from "@codemirror/language";
+import { Tree } from "@lezer/common";
 import { buildParser } from "@lezer/generator";
 
 // TODO: ability to load particular version of @lezer/generator from CDN
@@ -14,8 +15,9 @@ import { buildParser } from "@lezer/generator";
 // export const parserBuilderResource = () =>
 //   createResource(() => import(lezerGeneratorUrl()).then((m) => m.buildParser));
 
-export function buildLanguageSupport(grammar: string): LanguageSupport {
-  const parser = buildParser(grammar);
+export function languageFromParser(
+  parser: ReturnType<typeof buildParser>
+): LanguageSupport {
   const language = LRLanguage.define({
     parser,
     languageData: {
@@ -23,4 +25,25 @@ export function buildLanguageSupport(grammar: string): LanguageSupport {
     },
   });
   return new LanguageSupport(language);
+}
+
+export function languageFromGrammar(grammar: string): LanguageSupport {
+  const parser = buildParser(grammar);
+  return languageFromParser(parser);
+}
+
+export function JSONfromTree(tree: Tree): string {
+  let json = "";
+  tree.iterate({
+    enter(type) {
+      json += `{"type": "${type.name}", "from": ${type.from}, "to": ${type.to}, "children": [`;
+    },
+    leave(type) {
+      json += `]}`;
+      if (type.node.nextSibling != null) {
+        json += `,`;
+      }
+    },
+  });
+  return JSON.stringify(JSON.parse(json), null, 2);
 }

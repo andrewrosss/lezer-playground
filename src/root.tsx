@@ -13,8 +13,8 @@ import {
   Scripts,
   Title,
 } from "solid-start";
-
-import { RootLayout } from "./components/root-layout";
+import { Providers } from "~/components/providers";
+import { RootLayout } from "~/components/root-layout";
 
 export default function Root() {
   return (
@@ -27,11 +27,13 @@ export default function Root() {
       <Body>
         <Suspense>
           <ErrorBoundary>
-            <RootLayout>
-              <Routes>
-                <FileRoutes />
-              </Routes>
-            </RootLayout>
+            <Providers>
+              <RootLayout>
+                <Routes>
+                  <FileRoutes />
+                </Routes>
+              </RootLayout>
+            </Providers>
           </ErrorBoundary>
         </Suspense>
         <Scripts />
