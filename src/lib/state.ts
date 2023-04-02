@@ -4,6 +4,7 @@ import { withProxyCommands } from "statebuilder/commands";
 import { JSONfromTree } from "~/lib/language";
 
 import { buildParser } from "@lezer/generator";
+import { debounce } from "@solid-primitives/scheduled";
 
 export const container = createRoot(() => Container.create());
 
@@ -41,23 +42,32 @@ const createAppStore = () => {
     withProxyCommands<{
       setGrammarCode: string;
       setSpecimenCode: string;
+      rebuildParser: void;
+      rebuildTree: void;
     }>()
   );
 
   const store = container.get(config);
 
+  const debouncedDispatch = debounce(store.dispatch, 500);
+
   store
-    .hold(store.commands.setGrammarCode, (code, { set, state }) => {
-      const parser = buildParser(code);
-      const specimenCode = state.editors.specimen.code;
-      const treeCode = JSONfromTree(parser.parse(specimenCode));
-      set("parser", parser);
+    .hold(store.commands.setGrammarCode, (code, { set }) => {
       set("editors", "grammar", "code", code);
-      set("editors", "tree", "code", treeCode);
+      debouncedDispatch(store.commands.rebuildParser, void 0);
     })
-    .hold(store.commands.setSpecimenCode, (code, { set, state }) => {
-      const treeCode = JSONfromTree(state.parser.parse(code));
+    .hold(store.commands.setSpecimenCode, (code, { set }) => {
       set("editors", "specimen", "code", code);
+      debouncedDispatch(store.commands.rebuildTree, void 0);
+    })
+    .hold(store.commands.rebuildParser, (_void0, { set, state }) => {
+      const parser = buildParser(state.editors.grammar.code);
+      set("parser", parser);
+      store.dispatch(store.commands.rebuildTree, void 0);
+    })
+    .hold(store.commands.rebuildTree, (_void0, { set, state }) => {
+      const specimenCode = state.editors.specimen.code;
+      const treeCode = JSONfromTree(state.parser.parse(specimenCode));
       set("editors", "tree", "code", treeCode);
     });
 
