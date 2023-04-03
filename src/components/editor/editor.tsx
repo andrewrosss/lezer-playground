@@ -1,8 +1,8 @@
 import {
   createCodeMirror,
   createEditorControlledValue,
+  createEditorReadonly,
 } from "solid-codemirror";
-import { TbChevronDown, TbChevronRight } from "solid-icons/tb";
 import { ComponentProps, VoidProps, onMount, splitProps } from "solid-js";
 
 import {
@@ -19,7 +19,6 @@ import {
 } from "@codemirror/commands";
 import {
   bracketMatching,
-  codeFolding,
   foldGutter,
   indentOnInput,
 } from "@codemirror/language";
@@ -131,6 +130,7 @@ type Props = VoidProps<ComponentProps<"code">> & {
   value: string;
   onValueChange: (value: string) => void;
   language?: Extension;
+  isReadOnly?: boolean;
 };
 
 export function Editor(props: Props) {
@@ -140,6 +140,7 @@ export function Editor(props: Props) {
     "value",
     "onValueChange",
     "language",
+    "isReadOnly",
   ]);
 
   const {
@@ -148,22 +149,15 @@ export function Editor(props: Props) {
     createExtension,
   } = createCodeMirror({ onValueChange: local.onValueChange });
 
-  // fold gutter
-  const markerDOM = (open: boolean) =>
-    (open ? (
-      <TbChevronDown class="text-[1.25em]" />
-    ) : (
-      <TbChevronRight class="text-[1.25em]" />
-    )) as HTMLElement;
-
+  createEditorReadonly(editorView, () => !!local.isReadOnly);
   createEditorControlledValue(editorView, () => local.value);
   createExtension(BASE_THEME_EXTENSION);
   createExtension(BASIC_SETUP_EXTENSION);
   createExtension(BASE_FONT_EXTENSION);
   createExtension(() => vsCodeDark); // main theme
   createExtension(() => lineNumbers());
-  createExtension(() => codeFolding());
-  createExtension(() => foldGutter({ markerDOM }));
+  createExtension(() => foldGutter({ openText: "⛛", closedText: "👉" }));
+  createExtension(() => local.language ?? []);
   createExtension(() =>
     EditorView.domEventHandlers({
       paste(event, view) {
@@ -175,10 +169,6 @@ export function Editor(props: Props) {
       },
     })
   );
-
-  if (local.language) {
-    createExtension(() => local.language);
-  }
 
   onMount(() => setRef(() => editorEl));
 
