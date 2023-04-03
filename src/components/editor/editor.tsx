@@ -92,17 +92,19 @@ const BASE_THEME_EXTENSION = EditorView.theme({
     lineHeight: "21px",
   },
   ".cm-line": {
-    borderTop: "2px solid transparent",
-    borderBottom: "2px solid transparent",
+    backgroundColor: "transparent",
   },
   ".cm-line .cm-foldPlaceholder": {
     backgroundColor: "transparent",
     border: "none",
   },
   ".cm-line.cm-activeLine": {
-    borderTop: "2px solid rgba(255, 255, 255, 0.05)",
-    borderBottom: "2px solid rgba(255, 255, 255, 0.05)",
-    backgroundColor: "transparent",
+    // use a linear gradient to place a line above and below the active line
+    // this is a workaround for the fact that the active line is not a real line
+    // and therefore cannot have a border
+    "--top-bottom-color": "rgba(255, 255, 255, 0.05)",
+    background:
+      "linear-gradient(to bottom, var(--top-bottom-color) 0 10%, transparent 10% 90%, var(--top-bottom-color) 90% 100%)",
   },
   ".cm-cursor": {
     borderLeftWidth: "2px",
