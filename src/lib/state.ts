@@ -37,13 +37,17 @@ const store = createRoot(() => {
       specimen: { code: INITIAL_SPECIMEN },
       tree: { code: INITIAL_TREE },
     },
-    parser: INITIAL_PARSER,
+    parser: {
+      parser: INITIAL_PARSER,
+      error: null as string | null,
+    },
   })).extend(
     withProxyCommands<{
       setGrammarCode: string;
       setSpecimenCode: string;
       rebuildParser: void;
       rebuildTree: void;
+      parserGenerationError: string | null;
     }>()
   );
 
@@ -61,13 +65,21 @@ const store = createRoot(() => {
       debouncedDispatch(store.commands.rebuildTree, void 0);
     })
     .hold(store.commands.rebuildParser, (_void0, { set, state }) => {
-      const parser = buildParser(state.editors.grammar.code);
-      set("parser", parser);
-      store.dispatch(store.commands.rebuildTree, void 0);
+      try {
+        const parser = buildParser(state.editors.grammar.code);
+        set("parser", "parser", parser);
+        set("parser", "error", null);
+        store.dispatch(store.commands.rebuildTree, void 0);
+      } catch (e) {
+        const genericMessage = "Failed to build parser";
+        const message = e instanceof Error ? e.message : genericMessage;
+        set("parser", "error", message);
+      }
     })
     .hold(store.commands.rebuildTree, (_void0, { set, state }) => {
+      const parser = state.parser.parser;
       const specimenCode = state.editors.specimen.code;
-      const treeCode = JSONfromTree(state.parser.parse(specimenCode));
+      const treeCode = JSONfromTree(parser.parse(specimenCode));
       set("editors", "tree", "code", treeCode);
     });
 
