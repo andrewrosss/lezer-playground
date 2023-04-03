@@ -37,6 +37,9 @@ dependencies:
   '@lezer/highlight':
     specifier: ^1.1.4
     version: 1.1.4
+  '@replit/codemirror-indentation-markers':
+    specifier: ^6.4.0
+    version: 6.4.0(@codemirror/language@6.6.0)(@codemirror/state@6.2.0)(@codemirror/view@6.9.3)
   '@solid-primitives/pointer':
     specifier: ^0.2.9
     version: 0.2.9(solid-js@1.6.16)
@@ -1801,6 +1804,18 @@ packages:
 
   /@polka/url@1.0.0-next.21:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
+
+  /@replit/codemirror-indentation-markers@6.4.0(@codemirror/language@6.6.0)(@codemirror/state@6.2.0)(@codemirror/view@6.9.3):
+    resolution: {integrity: sha512-iYorMjZnTuxzDceIYYxu2Atgapb+DMbJHlVXIGA+fnwGuvLNsUUtE+pOkpQzozSCubBVHEuAhAk3eaeFqYRw5Q==}
+    peerDependencies:
+      '@codemirror/language': ^6.0.0
+      '@codemirror/state': ^6.0.0
+      '@codemirror/view': ^6.0.0
+    dependencies:
+      '@codemirror/language': 6.6.0
+      '@codemirror/state': 6.2.0
+      '@codemirror/view': 6.9.3
+    dev: false
 
   /@rollup/plugin-commonjs@24.0.1(rollup@3.20.2):
     resolution: {integrity: sha512-15LsiWRZk4eOGqvrJyu3z3DaBu5BhXIMeWnijSRvd8irrrg9SHpQ1pH+BUK4H6Z9wL9yOxZJMTLU+Au86XHxow==}

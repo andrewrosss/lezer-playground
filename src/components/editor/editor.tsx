@@ -35,6 +35,7 @@ import {
   lineNumbers,
   rectangularSelection,
 } from "@codemirror/view";
+import { indentationMarkers } from "@replit/codemirror-indentation-markers";
 
 import { background, vsCodeDark } from "./themes/vsCodeDark";
 
@@ -110,6 +111,9 @@ const BASE_THEME_EXTENSION = EditorView.theme({
     borderLeftWidth: "2px",
     height: "21px",
   },
+  ".cm-indent-markers": {
+    "--indent-marker-bg-color": "rgba(255, 255, 255, 0.15)",
+  },
 });
 
 const BASE_FONT_EXTENSION = EditorView.theme({
@@ -160,6 +164,7 @@ export function Editor(props: Props) {
   createExtension(() => lineNumbers());
   createExtension(() => foldGutter({ openText: "⛛", closedText: "👉" }));
   createExtension(() => local.language ?? []);
+  createExtension(() => indentationMarkers());
   createExtension(() =>
     EditorView.domEventHandlers({
       paste(event, view) {
