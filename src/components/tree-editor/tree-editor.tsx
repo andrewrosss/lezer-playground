@@ -3,59 +3,7 @@ import { getAppStore } from "~/lib/state";
 
 import { json } from "@codemirror/lang-json";
 
-const INITIAL_TREE = `\
-{
-  "name": "Program",
-  "from": 0,
-  "to": 13,
-  "children": [
-    {
-      "name": "BinaryExpression",
-      "from": 0,
-      "to": 13,
-      "children": [
-        {
-          "name": "Number",
-          "from": 1,
-          "to": 4,
-          "children": []
-        },
-        {
-          "name": "Operator",
-          "from": 4,
-          "to": 5,
-          "children": []
-        },
-        {
-          "name": "BinaryExpression",
-          "from": 5,
-          "to": 12,
-          "children": [
-            {
-              "name": "Name",
-              "from": 6,
-              "to": 9,
-              "children": []
-            },
-            {
-              "name": "Operator",
-              "from": 9,
-              "to": 10,
-              "children": []
-            },
-            {
-              "name": "Number",
-              "from": 10,
-              "to": 11,
-              "children": []
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-`;
+const NOOP = () => {};
 
 export const TreeEditor = () => {
   const { state } = getAppStore();
@@ -74,8 +22,9 @@ export const TreeEditor = () => {
         <Editor
           class="flex-auto overflow-y-auto h-24 text-sm"
           value={state.editors.tree.code}
-          onValueChange={() => state.editors.tree.code}
+          onValueChange={NOOP}
           language={json()}
+          isReadOnly
         />
       </div>
     </section>
