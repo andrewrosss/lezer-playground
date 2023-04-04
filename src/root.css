@@ -59,7 +59,7 @@ body {
   SEARCH
 */
 .cm-panels.cm-panels-top {
-  @apply border-b border-slate-700;
+  @apply border-b border-slate-700 z-[1];
 }
 
 .cm-search.cm-panel {

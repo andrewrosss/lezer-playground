@@ -114,6 +114,9 @@ const BASE_THEME_EXTENSION = EditorView.theme({
   ".cm-indent-markers": {
     "--indent-marker-bg-color": "rgba(255, 255, 255, 0.15)",
   },
+  ".cm-gutter.cm-foldGutter": {
+    backgroundColor: background,
+  },
 });
 
 const BASE_FONT_EXTENSION = EditorView.theme({
