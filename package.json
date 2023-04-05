@@ -33,13 +33,15 @@
     "@solid-primitives/scheduled": "^1.3.2",
     "@solidjs/meta": "^0.28.4",
     "@solidjs/router": "^0.8.2",
+    "lz-string": "^1.5.0",
     "solid-codemirror": "^2.2.3",
     "solid-icons": "^1.0.4",
     "solid-js": "^1.7.2",
     "solid-start": "^0.2.25",
     "split.js": "^1.6.5",
     "statebuilder": "^0.4.0",
-    "undici": "^5.21.0"
+    "undici": "^5.21.0",
+    "zod": "^3.21.4"
   },
   "engines": {
     "node": ">=16"
