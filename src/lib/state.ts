@@ -24,24 +24,50 @@ BinaryExpression { "(" expression Operator expression ")" }
 @detectDelim
 `;
 
-const DEFAULT_PARSER = buildParser(DEFAULT_GRAMMAR);
-
 const DEFAULT_SPECIMEN = `(100-(foo+4))`;
 
-const DEFAULT_TREE = JSONfromTree(DEFAULT_PARSER.parse(DEFAULT_SPECIMEN));
+type TState = {
+  editors: {
+    grammar: { code: string };
+    specimen: { code: string };
+    tree: { code: string };
+  };
+  parser:
+    | { parser: ReturnType<typeof buildParser>; error: null }
+    | { parser: null; error: string };
+};
+
+function generateState(grammar: string, specimen: string): TState {
+  let parser: ReturnType<typeof buildParser>;
+  try {
+    parser = buildParser(grammar);
+  } catch (e) {
+    const genericMessage = "Failed to build parser";
+    const message = e instanceof Error ? e.message : genericMessage;
+    return {
+      editors: {
+        grammar: { code: grammar },
+        specimen: { code: specimen },
+        tree: { code: "{}" },
+      },
+      parser: { parser: null, error: message },
+    };
+  }
+
+  return {
+    editors: {
+      grammar: { code: grammar },
+      specimen: { code: specimen },
+      tree: { code: JSONfromTree(parser.parse(specimen)) },
+    },
+    parser: { parser, error: null },
+  };
+}
 
 const store = createRoot(() => {
-  const config = defineStore(() => ({
-    editors: {
-      grammar: { code: DEFAULT_GRAMMAR },
-      specimen: { code: DEFAULT_SPECIMEN },
-      tree: { code: DEFAULT_TREE },
-    },
-    parser: {
-      parser: DEFAULT_PARSER,
-      error: null as string | null,
-    },
-  })).extend(
+  const config = defineStore(() =>
+    generateState(DEFAULT_GRAMMAR, DEFAULT_SPECIMEN)
+  ).extend(
     withProxyCommands<{
       setGrammarCode: string;
       setSpecimenCode: string;
@@ -62,22 +88,24 @@ const store = createRoot(() => {
     })
     .hold(store.commands.setSpecimenCode, (code, { set }) => {
       set("editors", "specimen", "code", code);
-      debouncedDispatch(store.commands.rebuildTree, void 0);
+      setTimeout(() => store.actions.rebuildTree());
     })
     .hold(store.commands.rebuildParser, (_void0, { set, state }) => {
       try {
         const parser = buildParser(state.editors.grammar.code);
         set("parser", "parser", parser);
         set("parser", "error", null);
-        store.dispatch(store.commands.rebuildTree, void 0);
+        setTimeout(() => store.actions.rebuildTree());
       } catch (e) {
         const genericMessage = "Failed to build parser";
         const message = e instanceof Error ? e.message : genericMessage;
         set("parser", "error", message);
+        set("parser", "parser", null);
       }
     })
     .hold(store.commands.rebuildTree, (_void0, { set, state }) => {
       const parser = state.parser.parser;
+      if (parser == null) return; // cannot rebuild tree without parser
       const specimenCode = state.editors.specimen.code;
       const treeCode = JSONfromTree(parser.parse(specimenCode));
       set("editors", "tree", "code", treeCode);

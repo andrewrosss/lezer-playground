@@ -7,7 +7,10 @@ export const SpecimenEditor = () => {
     state,
     actions: { setSpecimenCode },
   } = getAppStore();
-  const language = () => languageFromParser(state.parser.parser);
+  const language = () =>
+    state.parser.parser != null
+      ? languageFromParser(state.parser.parser)
+      : undefined;
 
   return (
     <section
