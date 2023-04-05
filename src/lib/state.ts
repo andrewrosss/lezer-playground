@@ -8,7 +8,7 @@ import { debounce } from "@solid-primitives/scheduled";
 
 export const container = createRoot(() => Container.create());
 
-const INITIAL_GRAMMAR = `\
+const DEFAULT_GRAMMAR = `\
 @top Program { expression }
 
 expression { Name | Number | BinaryExpression }
@@ -24,21 +24,21 @@ BinaryExpression { "(" expression Operator expression ")" }
 @detectDelim
 `;
 
-const INITIAL_PARSER = buildParser(INITIAL_GRAMMAR);
+const DEFAULT_PARSER = buildParser(DEFAULT_GRAMMAR);
 
-const INITIAL_SPECIMEN = `(100-(foo+4))`;
+const DEFAULT_SPECIMEN = `(100-(foo+4))`;
 
-const INITIAL_TREE = JSONfromTree(INITIAL_PARSER.parse(INITIAL_SPECIMEN));
+const DEFAULT_TREE = JSONfromTree(DEFAULT_PARSER.parse(DEFAULT_SPECIMEN));
 
 const store = createRoot(() => {
   const config = defineStore(() => ({
     editors: {
-      grammar: { code: INITIAL_GRAMMAR },
-      specimen: { code: INITIAL_SPECIMEN },
-      tree: { code: INITIAL_TREE },
+      grammar: { code: DEFAULT_GRAMMAR },
+      specimen: { code: DEFAULT_SPECIMEN },
+      tree: { code: DEFAULT_TREE },
     },
     parser: {
-      parser: INITIAL_PARSER,
+      parser: DEFAULT_PARSER,
       error: null as string | null,
     },
   })).extend(
