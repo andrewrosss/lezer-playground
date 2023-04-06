@@ -6,7 +6,7 @@ import { createEffect, createRoot, on } from "solid-js";
 import { Container, defineStore } from "statebuilder";
 import { withProxyCommands } from "statebuilder/commands";
 import { z } from "zod";
-import { JSONfromTree } from "~/lib/language";
+import { JSONFromTree } from "~/lib/language";
 
 import { buildParser } from "@lezer/generator";
 import { debounce } from "@solid-primitives/scheduled";
@@ -71,7 +71,7 @@ function generateState(grammar: string, specimen: string): TState {
     editors: {
       grammar: { code: grammar },
       specimen: { code: specimen },
-      tree: { code: JSONfromTree(parser.parse(specimen), specimen) },
+      tree: { code: JSONFromTree(parser.parse(specimen), specimen) },
     },
     parser: { parser, error: null },
   };
@@ -140,7 +140,7 @@ const store = createRoot(() => {
       const parser = state.parser.parser;
       if (parser == null) return; // cannot rebuild tree without parser
       const specimenCode = state.editors.specimen.code;
-      const treeCode = JSONfromTree(parser.parse(specimenCode), specimenCode);
+      const treeCode = JSONFromTree(parser.parse(specimenCode), specimenCode);
       set("editors", "tree", "code", treeCode);
     });
 

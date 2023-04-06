@@ -32,7 +32,7 @@ export function languageFromGrammar(grammar: string): LanguageSupport {
   return languageFromParser(parser);
 }
 
-export function JSONfromTree(tree: Tree, text: string): string {
+export function JSONFromTree(tree: Tree, text: string): string {
   let json = "";
   tree.iterate({
     enter(type) {
