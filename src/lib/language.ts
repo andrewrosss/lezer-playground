@@ -32,17 +32,18 @@ export function languageFromGrammar(grammar: string): LanguageSupport {
   return languageFromParser(parser);
 }
 
-export function JSONfromTree(tree: Tree): string {
+export function JSONfromTree(tree: Tree, text: string): string {
   let json = "";
   tree.iterate({
     enter(type) {
-      json += `{"type": "${type.name}", "from": ${type.from}, "to": ${type.to}, "children": [`;
+      const { name, from, to } = type;
+      const value = text.slice(from, to);
+      const obj = { type: name, from, to, value, children: [] };
+      json += JSON.stringify(obj).slice(0, -2);
     },
     leave(type) {
       json += `]}`;
-      if (type.node.nextSibling != null) {
-        json += `,`;
-      }
+      if (type.node.nextSibling != null) json += `,`;
     },
   });
   return JSON.stringify(JSON.parse(json), null, 2);
