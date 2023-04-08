@@ -1,7 +1,7 @@
 import { GrammarEditor } from "~/components/grammar-editor";
 import { SolidSplit } from "~/components/solid-split";
 import { SpecimenEditor } from "~/components/specimen-editor";
-import { TreeEditor } from "~/components/tree-editor";
+import { TreeViewer } from "~/components/tree-viewer";
 
 export default function Home() {
   return (
@@ -16,7 +16,7 @@ export default function Home() {
         gutter={gutterFn}
       >
         <SpecimenEditor />
-        <TreeEditor />
+        <TreeViewer />
       </SolidSplit>
     </SolidSplit>
   );
