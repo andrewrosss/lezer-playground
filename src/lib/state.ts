@@ -8,6 +8,7 @@ import { withProxyCommands } from "statebuilder/commands";
 import { z } from "zod";
 import { JSONFromTree } from "~/lib/language";
 
+import { Tree } from "@lezer/common";
 import { buildParser } from "@lezer/generator";
 import { debounce } from "@solid-primitives/scheduled";
 
@@ -46,8 +47,8 @@ type TState = {
     tree: { code: string };
   };
   parser:
-    | { parser: ReturnType<typeof buildParser>; error: null }
-    | { parser: null; error: string };
+    | { parser: ReturnType<typeof buildParser>; tree: Tree; error: null }
+    | { parser: null; tree: null; error: string };
 };
 
 function generateState(grammar: string, specimen: string): TState {
@@ -63,17 +64,18 @@ function generateState(grammar: string, specimen: string): TState {
         specimen: { code: specimen },
         tree: { code: "{}" },
       },
-      parser: { parser: null, error: message },
+      parser: { parser: null, tree: null, error: message },
     };
   }
 
+  const tree = parser.parse(specimen);
   return {
     editors: {
       grammar: { code: grammar },
       specimen: { code: specimen },
-      tree: { code: JSONFromTree(parser.parse(specimen), specimen) },
+      tree: { code: JSONFromTree(tree, specimen) },
     },
-    parser: { parser, error: null },
+    parser: { parser, tree, error: null },
   };
 }
 
@@ -87,17 +89,14 @@ const store = createRoot(() => {
         const {
           editors: { grammar, specimen },
         } = storageState;
-        state.set(generateState(grammar.code, specimen.code));
+        setTimeout(() => state.set(generateState(grammar.code, specimen.code)));
       }
 
       const g = () => state().editors.grammar.code;
       const s = () => state().editors.specimen.code;
 
       createEffect(
-        on([g, s], () => {
-          console.log("saving state to storage", g(), s());
-          serializeStateToStorage(state());
-        })
+        on([g, s], () => serializeStateToStorage(state()), { defer: true })
       );
     })
     .extend(
@@ -126,22 +125,27 @@ const store = createRoot(() => {
     .hold(store.commands.rebuildParser, (_void0, { set, state }) => {
       try {
         const parser = buildParser(state.editors.grammar.code);
+        const tree = parser.parse(state.editors.specimen.code);
         set("parser", "parser", parser);
+        set("parser", "tree", tree);
         set("parser", "error", null);
         setTimeout(() => store.actions.rebuildTree());
       } catch (e) {
         const genericMessage = "Failed to build parser";
         const message = e instanceof Error ? e.message : genericMessage;
-        set("parser", "error", message);
         set("parser", "parser", null);
+        set("parser", "tree", null);
+        set("parser", "error", message);
       }
     })
     .hold(store.commands.rebuildTree, (_void0, { set, state }) => {
       const parser = state.parser.parser;
       if (parser == null) return; // cannot rebuild tree without parser
       const specimenCode = state.editors.specimen.code;
-      const treeCode = JSONFromTree(parser.parse(specimenCode), specimenCode);
+      const tree = parser.parse(specimenCode);
+      const treeCode = JSONFromTree(tree, specimenCode);
       set("editors", "tree", "code", treeCode);
+      set("parser", "tree", tree);
     });
 
   return {
